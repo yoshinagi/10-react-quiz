@@ -1,9 +1,22 @@
 /* eslint-disable react/prop-types */
-function Options({ question }) {
+function Options({ question, dispatch, answer }) {
+  const hasAnswer = answer !== null;
+
   return (
     <div className="options">
-      {question.options.map((option) => (
-        <button className="btn btn-option" key={option}>
+      {question.options.map((option, index) => (
+        <button
+          className={`btn btn-option ${index === answer ? 'answer' : ''} ${
+            hasAnswer
+              ? index === question.correctOption
+                ? 'correct'
+                : 'wrong'
+              : ''
+          }`}
+          key={option}
+          disabled={hasAnswer}
+          onClick={() => dispatch({ type: 'newAnswer', payload: index })}
+        >
           {option}
         </button>
       ))}
